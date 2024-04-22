@@ -5,11 +5,12 @@ import { Button, Gap, PageHeader, TextInput } from '../../components';
 const HomePage = ({navigation, label}) => {
   return (
     <ScrollView style={styles.container}>
-        <PageHeader type="withPhoto" />
+
+        <PageHeader type="withLogo" />
         <View style={styles.contentWrapper}>
-            <Gap height={26} />
+            {/* <Gap height={26} /> */}
             <View>
-                <Gap height={26} />
+                {/* <Gap height={26} /> */}
                 <Text style={styles.title1}>Today</Text>
                 <Text style={styles.title2}>7 Task</Text>
                 

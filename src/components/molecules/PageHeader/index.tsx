@@ -2,18 +2,23 @@ import {StyleSheet, Text, View, Image} from 'react-native';
 import React from 'react';
 import {Button} from '../../atoms';
 
+
+
 const PageHeader = ({label, backButton, onPress, type}) => {
-  if (type === 'withPhoto') {
+  if (type === 'withLogo') {
     return (
       <View style={styles.containerTop}>
-        <Text style={styles.title}>To Do List</Text>
-        <View style={styles.containerwithPhoto}>
-        </View>
         <Image
           style={styles.profilePic}
           source={require('../../../assets/icon/ProfileLogo.png')}
         />
-        <Image style={styles.clockLogo} source={require('../../../assets/icon/ClockLogo.png')}/>
+        <Text style={styles.title}>To Do List</Text>
+        <View style={styles.containerwithPhoto}></View>
+
+        <Image
+          style={styles.clockLogo}
+          source={require('../../../assets/icon/ClockLogo.png')}
+        />
       </View>
     );
   }
@@ -53,7 +58,7 @@ const styles = StyleSheet.create({
   containerwithPhoto: {
     backgroundColor: '#FFFFFF',
     paddingVertical: 37,
-    flexDirection: 'column', 
+    flexDirection: 'column',
   },
   labelWithBack: {
     fontFamily: 'Poppins-Medium',
@@ -67,6 +72,8 @@ const styles = StyleSheet.create({
     color: '#001D35',
     textAlign: 'center',
     fontWeight: 'bold',
+    // marginLeft: 30,
+    marginRight: 'auto',
   },
   text: {
     color: '#020202',
@@ -74,13 +81,12 @@ const styles = StyleSheet.create({
   profilePic: {
     width: 60,
     height: 60,
-    marginLeft: 30,
     marginRight: 'auto',
     borderWidth: 10,
     borderRadius: 10,
     // borderColor: 'black',
   },
-  clockLogo : { 
+  clockLogo: {
     marginRight: 30,
     borderWidth: 10,
     borderRadius: 10,
@@ -89,9 +95,11 @@ const styles = StyleSheet.create({
   containerTop: {
     backgroundColor: '#FFFFFF',
     // paddingLeft: 24,
-    // paddingVertical: 37,
+    paddingVertical: 37,
     flexDirection: 'row',
     alignItems: 'center',
+    paddingHorizontal: 24,
+
     // flexDirection: 'row',
     // alignItems: 'center',
     // marginLeft: 26,
