@@ -1,35 +1,42 @@
 import React from 'react';
 import { StyleSheet, View, ScrollView, Text } from 'react-native';
-import { Button, Gap, PageHeader, PageFooter, TextInput } from '../../components'; 
+import { Button, Gap, PageHeader, TextInput, TextInput2, TextInputDateTime } from '../../components'; 
 import {useNavigation} from '@react-navigation/native';
 
-const TaskPage = () => {
-    const navigation = useNavigation();
+const TaskPage = ( {navigation, label, backButton, onPress, style}) => {
+    // const navigation = useNavigation();
   return (
     <ScrollView style={styles.container}>
-        {/* <PageHeader type="withPhoto" /> */}
-        {/* <Gap height={24} /> */}
         <View style={styles.contentWrapper}>
-            <Gap height={26} />
+            <Gap height={16} />
             <View>
-                <Text style={styles.title}>Task</Text>
+                {/* <View style={styles.container}>
+                    {backButton && (
+                        <Button type="icon-only" icon="icon-back" onPress={onPress} style={[styles.backButton, style]} />
+                    )}
+                    <Text style={styles.label}>{label}</Text>
+                </View> */}
+                <PageHeader type="withLogo2"/>
                 <Gap height={26} />
                 <TextInput label="Task Name" placeholder="Fitness"/>
                 <Gap height={16} />
-                <TextInput label="Task Description" placeholder="Exercise and Gym"/>
+                <TextInput2 label="Task Description" placeholder="Exercise and Gym"/>
             </View>
             <Gap height={24} />
         </View>
-        <Gap height={24} />
         <View style={styles.contentWrapper}>
-            <Gap height={26} />
-            <Text style={styles.containerText4}>Add Transaction</Text>
-            <Button label="Cash On Hand" backgroundColor="#02CF8E" textColor="#000000" onPress={() => navigation.navigate('CashOnHand')}/>
-            <Gap height={18} />
-            <Button label="Cash On Bank" backgroundColor="#02CF8E" textColor="#000000" onPress={() => navigation.navigate('CashOnBank')}/>
+            <Gap height={6} />
+            <View style={styles.dateAndTimeContainer}>
+                <TextInputDateTime label="Task Date" placeholder="04 / April / 2024"/>
+                <TextInputDateTime label="Task Time" placeholder="6:00 - 07:30"/>
+            </View>
+            <Gap height={36} />
+            <View style={styles.buttonContainer}>
+                <Button label="Edit Task" backgroundColor="#FFCB62" textColor="#000000" onPress={() => navigation.navigate('')} />
+                <Button label="Delete Task" backgroundColor="#FFCB62" textColor="#000000" onPress={() => navigation.navigate('')}/>
+            </View>
+            <Gap height={48} />
         </View>
-        <Gap height={26} />
-        
     </ScrollView>
   );
 };
@@ -72,8 +79,28 @@ const styles = StyleSheet.create({
     containerText4: {
         color: '#000',
         fontFamily: 'Poppins-Regular',
-        fontSize: 16,
+        fontSize: 13,
+        textAlign: 'left',
     },
+    dateAndTimeContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between', 
+      },
+    backButton: {
+        marginLeft: 10, // Memberikan margin ke kiri
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+    },
+    // button: {
+    //     flex: 1,
+    //     marginHorizontal: 5,
+    //     height: 50,
+    //     borderRadius: 8,
+    //     alignItems: 'center',
+    //     justifyContent: 'center', 
+    // },
 });
 
 export default TaskPage
