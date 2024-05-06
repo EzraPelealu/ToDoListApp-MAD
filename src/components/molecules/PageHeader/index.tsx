@@ -1,10 +1,10 @@
-import {StyleSheet, Text, View, Image} from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import React from 'react';
-import {Button} from '../../atoms';
+import { Button } from '../../atoms';
+import {useNavigation} from '@react-navigation/native';
 
-
-
-const PageHeader = ({label, backButton, onPress, type}) => {
+const PageHeader = ({ label, backButton, onPress, type, }) => {
+  const navigation = useNavigation();
   if (type === 'withLogo') {
     return (
       <View style={styles.containerTop}>
@@ -14,7 +14,6 @@ const PageHeader = ({label, backButton, onPress, type}) => {
         />
         <Text style={styles.title}>To Do List</Text>
         <View style={styles.containerwithPhoto}></View>
-
         <Image
           style={styles.clockLogo}
           source={require('../../../assets/icon/ClockLogo.png')}
@@ -22,39 +21,65 @@ const PageHeader = ({label, backButton, onPress, type}) => {
       </View>
     );
   }
-  if (label === 'HomePage') {
+  if (type === 'withLogo2') {
     return (
-      <View style={styles.container}>
-        <Text style={styles.label}>{label}</Text>
+      <View style={styles.containerTop}>
+        <PageHeader
+          style={styles.backButton}
+          backButton={true}
+          onPress={() => navigation.goBack()}
+        />
+        <Text style={styles.title2}>Task</Text>
+        {/* <View style={styles.container}>
+          {backButton && (
+            <Button type="icon-only" icon="icon-back" onPress={onPress} style={[styles.backButton, style]} />
+          )}
+          <Text style={styles.label}>{label}</Text>
+        </View> */}
+        <Image
+          style={styles.clockLogo}
+          source={require('../../../assets/icon/ClockLogo.png')}
+        />
       </View>
     );
   }
+  // if (label === 'HomePage') {
+  //   return (
+  //     <View style={styles.container}>
+  //       <Text style={styles.label}>{label}</Text>
+  //     </View>
+  //   );
+  // }
   return (
     <View style={styles.container}>
       {backButton && (
-        <Button type="icon-only" icon="icon-back" onPress={onPress} />
+        <Button type="icon-only" icon="icon-back" onPress={onPress} style={styles.backButton} />
       )}
       <Text style={styles.label}>{label}</Text>
     </View>
   );
 };
 
+
 export default PageHeader;
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#FFFFFF',
-    paddingLeft: 24,
-    paddingVertical: 37,
+    marginRight: 70,
+    paddingLeft: 1,
+    paddingVertical: 5,
     flexDirection: 'row',
     alignItems: 'center',
   },
   label: {
     fontFamily: 'Poppins-Medium',
-    fontSize: 22,
+    fontSize: 20,
     color: '#020202',
-    marginLeft: 24,
-  },
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    textAlign: 'center',
+  },  
   containerwithPhoto: {
     backgroundColor: '#FFFFFF',
     paddingVertical: 37,
@@ -72,6 +97,14 @@ const styles = StyleSheet.create({
     color: '#001D35',
     textAlign: 'center',
     fontWeight: 'bold',
+    // marginLeft: 30,
+    marginRight: 'auto',
+  },
+  title2: {
+    fontFamily: 'Poppins-SemiBold',
+    fontSize: 20,
+    color: '#001D35',
+    textAlign: 'center',
     // marginLeft: 30,
     marginRight: 'auto',
   },
@@ -99,9 +132,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 24,
-
     // flexDirection: 'row',
     // alignItems: 'center',
     // marginLeft: 26,
   },
+
+  // backButton: {
+  //   width: 60,
+  //   height: 60,
+  //   marginRight: 'auto',
+  //   borderWidth: 10,
+  //   borderRadius: 10,
+  //   marginLeft: 1,
+  // },
 });
