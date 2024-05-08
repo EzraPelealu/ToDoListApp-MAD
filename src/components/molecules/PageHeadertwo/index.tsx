@@ -2,19 +2,20 @@ import {StyleSheet, Text, View, Image} from 'react-native';
 import React from 'react';
 import {Button} from '../../atoms';
 
-const PageHeader = ({label, backButton, onPress, type}) => {
+
+
+const PageHeadertwo = ({label, backButton, onPress, type}) => {
   if (type === 'withLogo') {
     return (
       <View style={styles.containerTop}>
         <Image
           style={styles.profilePic}
-          source={require('../../../assets/icon/ProfileLogo.png')}
+          source={require('../../../assets/icon/back.png')}
         />
-        <Text style={styles.title}>To Do List</Text>
+        <Text style={styles.title}>{label}</Text>
         <View style={styles.containerwithPhoto}></View>
 
         <Image
-          style={styles.clockLogo}
           source={require('../../../assets/icon/ClockLogo.png')}
         />
       </View>
@@ -37,7 +38,7 @@ const PageHeader = ({label, backButton, onPress, type}) => {
   );
 };
 
-export default PageHeader;
+export default PageHeadertwo;
 
 const styles = StyleSheet.create({
   container: {
@@ -66,8 +67,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: 'Poppins-Medium',
-    fontSize: 28,
-    color: '#001D35',
+    fontSize: 20,
+    color: 'black',
     textAlign: 'center',
     fontWeight: 'bold',
     // marginLeft: 30,
@@ -77,23 +78,15 @@ const styles = StyleSheet.create({
     color: '#020202',
   },
   profilePic: {
-    width: 60,
-    height: 60,
+    width: 12,
+    height: 20,
     marginRight: 'auto',
-    borderWidth: 10,
-    borderRadius: 10,
     // borderColor: 'black',
   },
-  clockLogo: {
-    marginRight: 30,
-    borderWidth: 10,
-    borderRadius: 10,
-    marginLeft: 26,
-  },
+  
   containerTop: {
     backgroundColor: '#FFFFFF',
     // paddingLeft: 24,
-    paddingVertical: 37,
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 24,

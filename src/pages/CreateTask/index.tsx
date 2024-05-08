@@ -17,10 +17,15 @@ import {
 } from '../../components';
 import {useNavigation} from '@react-navigation/native';
 import {Calendar} from 'react-native-calendars';
+// import TimePicker from '@tighten/react-native-time-input';
+// import TimePicker from 'react-time-picker';
+
 
 const TaskPage = () => {
-  const [tanggal, setTanggal] = useState(true);
-  const navigation = useNavigation();
+    const [tanggal, setTanggal] = useState(true);
+    const navigation = useNavigation();
+
+
   return (
     <ScrollView style={styles.container}>
       <PageHeadertwo type="withLogo" label={'Create Task'} />
@@ -30,16 +35,28 @@ const TaskPage = () => {
           style={styles.calendar}
           onDayPress={date => console.log(date)}
         />
-        <Text style={styles.title}>Time</Text>
-        <View style={styles.time}>
-          <Text style={styles.textbox}>6:00 - 07:30</Text>
-        </View>
+        {/* <Text style={styles.title}>Time</Text> */}
+        {/* <TextInput
+            label={'Time'}
+            placeholder={'Name Task'}
+        /> */}
+        {/* <View>
+          <TimeInput setCurrentTime onTimeChange={handleTimeChange} />
+          <Text>Current time entered is: {time}</Text>
+        </View> */}
+   
+        <Gap height={16} />
+
+        {/* <View style={styles.time}> */}
+        {/* <Text style={styles.textbox}>6:00 - 07:30</Text> */}
+        {/* </View> */}
         <Gap height={6} />
         <TextInput label={'Task Name'} placeholder={'Name Task'} />
         <TextInput
+          //   style={{height: 171}}
           label={'Task Deskription'}
           placeholder={'Task Description'}
-          height={171}
+          //   height={171}
         />
         <Gap height={26} />
         <ButtonCreate label="Create Task" />

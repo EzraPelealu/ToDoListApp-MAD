@@ -1,17 +1,15 @@
 import React from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import {BackButton, Logo} from '../../../assets/icon';
+import { BackButton, Logo } from '../../../assets/icon';
 import IconOnly from './IconOnly';
 
 const index = ({
   label,
-  backgroundColor = '#02CF8E',
-  textColor = '#020202',
   onPress,
   type,
-  icon,
+  icon
 }) => {
-  if (type === 'icon-only') {
+  if (type === 'icon-only'){
     return (
       <TouchableOpacity activeOpacity={0.7} onPress={onPress}>
         {icon === 'icon-back' && <BackButton />}
@@ -21,10 +19,10 @@ const index = ({
 
   return (
     <TouchableOpacity
-      style={styles.container(backgroundColor)}
+      style={styles.container}
       activeOpacity={0.7}
-      onPress={onPress}>
-      <Text style={styles.label(textColor)}>{label}</Text>
+      onPress = {onPress}>
+      <Text style={styles.label}>{label}</Text>
     </TouchableOpacity>
   );
 };
@@ -32,18 +30,18 @@ const index = ({
 export default index;
 
 const styles = StyleSheet.create({
-  container: backgroundColor => ({
-    backgroundColor: backgroundColor,
+  container: {
+    backgroundColor:'#FFCB62',
     borderRadius: 5,
-    height: 42,
-    width: 120,
-    marginLeft: 150,
-  }),
-  label: textColor => ({
+    height:35,
+    width:169,
+    alignSelf:'center'
+  },
+  label: {
     textAlign: 'center',
-    marginVertical: 5,
+    marginVertical:5,
     fontFamily: 'Poppins-Medium',
     fontSize: 20,
-    color: textColor,
-  }),
+    color: 'black',
+  },
 });
