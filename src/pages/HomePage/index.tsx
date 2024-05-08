@@ -12,6 +12,7 @@ import {
 const HomePage = ({navigation, label}) => {
   return (
     <ScrollView style={styles.container}>
+
       <PageHeader type="withLogo" />
       <View style={styles.contentWrapper}>
         {/* <Gap height={26} /> */}
@@ -28,6 +29,7 @@ const HomePage = ({navigation, label}) => {
               onPress={() => navigation.navigate('CreateTask')}
             />
           </View>
+
         </View>
         <View style={styles.content1}>
           <TaskDate label={4} labelone={'Apr'} backgroundColor={'#FFCB62'} />
