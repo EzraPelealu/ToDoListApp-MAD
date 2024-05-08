@@ -17,7 +17,7 @@ const HomePage = ({navigation, label}) => {
         {/* <Gap height={26} /> */}
         <View style={{flexDirection: 'row'}}>
           <View>
-            <Text style={styles.title1}>Today</Text>
+            <Text style={styles.title1}>Today Task</Text>
             <Text style={styles.title2}>7 Task</Text>
           </View>
           <View>
