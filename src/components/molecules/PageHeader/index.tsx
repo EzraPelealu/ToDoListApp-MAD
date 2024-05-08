@@ -3,7 +3,8 @@ import React from 'react';
 import { Button } from '../../atoms';
 import {useNavigation} from '@react-navigation/native';
 
-const PageHeader = ({ label, backButton, onPress, type, }) => {
+
+const PageHeader = ({label, backButton, onPress, type}) => {
   const navigation = useNavigation();
   if (type === 'withLogo') {
     return (
@@ -14,6 +15,9 @@ const PageHeader = ({ label, backButton, onPress, type, }) => {
         />
         <Text style={styles.title}>To Do List</Text>
         <View style={styles.containerwithPhoto}></View>
+
+
+
         <Image
           style={styles.clockLogo}
           source={require('../../../assets/icon/ClockLogo.png')}
@@ -99,6 +103,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     // marginLeft: 30,
     marginRight: 'auto',
+
   },
   title2: {
     fontFamily: 'Poppins-SemiBold',
@@ -107,6 +112,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     // marginLeft: 30,
     marginRight: 'auto',
+
   },
   text: {
     color: '#020202',
@@ -132,10 +138,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 24,
+
     // flexDirection: 'row',
     // alignItems: 'center',
     // marginLeft: 26,
   },
+
 
   // backButton: {
   //   width: 60,
@@ -146,3 +154,4 @@ const styles = StyleSheet.create({
   //   marginLeft: 1,
   // },
 });
+

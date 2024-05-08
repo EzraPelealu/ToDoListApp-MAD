@@ -1,6 +1,6 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {SplashScreen, HomePage, TaskPage} from '../pages';
+import {SplashScreen, HomePage,CreateTask, TaskPage} from '../pages';
 
 const Stack = createNativeStackNavigator();
 
@@ -12,12 +12,18 @@ const index = () => {
         component={SplashScreen}
         options={{headerShown: false}}
       />
-      <Stack.Screen 
+      <Stack.Screen
+        name="CreateTask"
+        component={CreateTask}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
         name="HomePage"
         component={HomePage}
         options={{headerShown: false}}
       />
-      <Stack.Screen 
+
+      <Stack.Screen
         name="TaskPage"
         component={TaskPage}
         options={{headerShown: false}}
