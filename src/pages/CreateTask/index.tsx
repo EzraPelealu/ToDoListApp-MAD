@@ -1,41 +1,65 @@
-import React from 'react';
-import {StyleSheet, View, ScrollView, Text, Modal} from 'react-native';
+import React, {useState} from 'react';
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  Modal,
+} from 'react-native';
 import {
   Button,
+  ButtonCreate,
   Gap,
   PageHeader,
+  PageHeadertwo,
   TextInput,
-  TextInputDateTime,
 } from '../../components';
 import {useNavigation} from '@react-navigation/native';
 import {Calendar} from 'react-native-calendars';
+// import TimePicker from '@tighten/react-native-time-input';
+// import TimePicker from 'react-time-picker';
+
 
 const TaskPage = () => {
-  const [tanggal, setTanggal] = React.useState(true);
-  const navigation = useNavigation();
+    const [tanggal, setTanggal] = useState(true);
+    const navigation = useNavigation();
+
 
   return (
     <ScrollView style={styles.container}>
-      <PageHeader type="withLogo" label={'Create Task'} />
+      <PageHeadertwo type="withLogo" label={'Create Task'} />
       <Gap height={16} />
       <View style={styles.contentWrapper}>
         <Calendar
           style={styles.calendar}
           onDayPress={date => console.log(date)}
         />
-        <Text style={styles.title}>Time</Text>
-        <View style={styles.time}>
-          <Text style={styles.textbox}>6:00 - 07:30</Text>
-        </View>
+        {/* <Text style={styles.title}>Time</Text> */}
+        {/* <TextInput
+            label={'Time'}
+            placeholder={'Name Task'}
+        /> */}
+        {/* <View>
+          <TimeInput setCurrentTime onTimeChange={handleTimeChange} />
+          <Text>Current time entered is: {time}</Text>
+        </View> */}
+   
+        <Gap height={16} />
+
+        {/* <View style={styles.time}> */}
+        {/* <Text style={styles.textbox}>6:00 - 07:30</Text> */}
+        {/* </View> */}
         <Gap height={6} />
         <TextInput label={'Task Name'} placeholder={'Name Task'} />
         <TextInput
+          //   style={{height: 171}}
           label={'Task Deskription'}
           placeholder={'Task Description'}
-          height={171}
+          //   height={171}
         />
         <Gap height={26} />
-        <Button label="Create Task" />
+        <ButtonCreate label="Create Task" />
         <Gap height={26} />
       </View>
       <Modal visible={tanggal} animationType="fade" transparent>
@@ -46,7 +70,7 @@ const TaskPage = () => {
               onDayPress={date => console.log(date)}
               color="white"
             />
-            <Button label="OK" onPress={() => setTanggal(false)} />
+            <ButtonCreate label="OK" onPress={() => setTanggal(false)} />
           </View>
         </View>
       </Modal>
