@@ -1,9 +1,10 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Button } from 'react-native';
 import React from 'react';
 import Checklist from '../../../assets/icon/checklist'
 import Gap from '../Gap';
 
 const TaskDetail = ({
+  navigation,
   label,
   labelone,
   labeltwo,
@@ -14,6 +15,7 @@ const TaskDetail = ({
       <View style={styles.jenis(backgroundColor)}>
         <Text style={[styles.text, {width:88, height:27 }]}>{label}</Text>
         <View style={{width:185, height:44 }}>
+        onPress={() => navigation.navigate('CashOnHand')}
           <Text style={[styles.text, { fontFamily: 'Poppins-Bold', } ]}>{labelone}</Text>
           <Text style={[styles.text]}>{labeltwo}</Text>
         </View>

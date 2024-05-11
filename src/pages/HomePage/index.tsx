@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, ScrollView, Text} from 'react-native';
+import {StyleSheet, View, ScrollView, Text, TouchableOpacity} from 'react-native';
 import {
   Button,
   Gap,
@@ -10,6 +10,10 @@ import {
 } from '../../components';
 
 const HomePage = ({navigation, label}) => {
+
+  const goToTaskPage = () => {
+    navigation.navigate('TaskPage'); // Navigate to TaskPage
+  };
   return (
     <ScrollView style={styles.container}>
 
@@ -40,12 +44,14 @@ const HomePage = ({navigation, label}) => {
         <Gap height={26} />
 
         <Text style={styles.title1}>My Task</Text>
-        <TaskDetail
-          label={'6:00 - 07:30'}
-          labelone={'   Fitness'}
-          labeltwo={'   Exercise and Gym'}
-          backgroundColor={'#FFCB62'}
-        />
+        <TouchableOpacity onPress={goToTaskPage}>
+          <TaskDetail
+            label={'6:00 - 07:30'}
+            labelone={'   Fitness'}
+            labeltwo={'   Exercise and Gym'}
+            backgroundColor={'#FFCB62'}
+          />
+        </TouchableOpacity>
         <TaskDetail
           label={'6:00 - 07:30'}
           labelone={'   Fitness'}

@@ -27,6 +27,20 @@ const PageHeader = ({label, backButton, onPress, type}) => {
   }
   if (type === 'withLogo2') {
     return (
+      // <View style={styles.containerTop}>
+      //   <Image
+      //     style={styles.profilePic}
+      //     source={require('../../../assets/icon/back.png')}
+      //   />
+      //   <Text style={styles.title2}>Task</Text>
+      //   <View style={styles.containerwithPhoto}></View>
+
+      //   <Image
+      //     source={require('../../../assets/icon/ClockLogo.png')}
+      //   />
+      // </View>
+
+
       <View style={styles.containerTop}>
         <PageHeader
           style={styles.backButton}
@@ -131,6 +145,41 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginLeft: 26,
   },
+
+
+  // containerwithPhoto: {
+  //   backgroundColor: '#FFFFFF',
+  //   paddingVertical: 37,
+  //   flexDirection: 'column',
+  // },
+  // title: {
+  //   fontFamily: 'Poppins-Medium',
+  //   fontSize: 20,
+  //   color: 'black',
+  //   textAlign: 'center',
+  //   fontWeight: 'bold',
+  //   // marginLeft: 30,
+  //   marginRight: 'auto',
+  // },
+  // profilePic: {
+  //   width: 12,
+  //   height: 20,
+  //   marginRight: 'auto',
+  //   // borderColor: 'black',
+  // },
+  
+  // containerTop: {
+  //   backgroundColor: '#FFFFFF',
+  //   // paddingLeft: 24,
+  //   flexDirection: 'row',
+  //   alignItems: 'center',
+  //   paddingHorizontal: 24,
+
+  //   // flexDirection: 'row',
+  //   // alignItems: 'center',
+  //   // marginLeft: 26,
+  // },
+  
   containerTop: {
     backgroundColor: '#FFFFFF',
     // paddingLeft: 24,
@@ -145,13 +194,11 @@ const styles = StyleSheet.create({
   },
 
 
-  // backButton: {
-  //   width: 60,
-  //   height: 60,
-  //   marginRight: 'auto',
-  //   borderWidth: 10,
-  //   borderRadius: 10,
-  //   marginLeft: 1,
-  // },
+  backButton: {
+    width: 12,
+    height: 20,
+    marginRight: 'auto',
+    // borderColor: 'black',
+  },
 });
 

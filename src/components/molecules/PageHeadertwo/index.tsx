@@ -1,26 +1,30 @@
 import {StyleSheet, Text, View, Image} from 'react-native';
 import React from 'react';
 import {Button} from '../../atoms';
-
+import {useNavigation} from '@react-navigation/native';
 
 
 const PageHeadertwo = ({label, backButton, onPress, type}) => {
-  if (type === 'withLogo') {
-    return (
-      <View style={styles.containerTop}>
-        <Image
-          style={styles.profilePic}
-          source={require('../../../assets/icon/back.png')}
-        />
-        <Text style={styles.title}>{label}</Text>
-        <View style={styles.containerwithPhoto}></View>
+  const navigation = useNavigation();
+  // const Image = ({backButton}) => {
+    if (type === 'withLogo') {
+      return (
+        <View style={styles.containerTop}>
+          <PageHeadertwo
+            style={styles.backButton}
+            backButton={true}
+            onPress={() => navigation.goBack()}
+          />
+          <Text style={styles.title}>{label}</Text>
+          <View style={styles.containerwithPhoto}></View>
 
-        <Image
-          source={require('../../../assets/icon/ClockLogo.png')}
-        />
-      </View>
-    );
-  }
+          <Image
+            source={require('../../../assets/icon/ClockLogo.png')}
+          />
+        </View>
+      );
+    }
+
   if (label === 'HomePage') {
     return (
       <View style={styles.container}>
@@ -52,7 +56,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Medium',
     fontSize: 22,
     color: '#020202',
-    marginLeft: 24,
+    marginLeft: 44,
   },
   containerwithPhoto: {
     backgroundColor: '#FFFFFF',
@@ -66,18 +70,26 @@ const styles = StyleSheet.create({
     marginLeft: 26,
   },
   title: {
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Poppins-SemiBold',
     fontSize: 20,
-    color: 'black',
+    color: '#001D35',
     textAlign: 'center',
-    fontWeight: 'bold',
     // marginLeft: 30,
     marginRight: 'auto',
+
   },
   text: {
     color: '#020202',
   },
   profilePic: {
+    width: 60,
+    height: 60,
+    marginRight: 'auto',
+    borderWidth: 10,
+    borderRadius: 10,
+    // borderColor: 'black',
+  },
+  backButton: {
     width: 12,
     height: 20,
     marginRight: 'auto',
