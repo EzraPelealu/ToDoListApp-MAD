@@ -12,7 +12,7 @@ const TaskDetail = ({label, labelone, labeltwo, backgroundColor}) => {
           <Text style={[styles.text, {fontFamily: 'Poppins-Bold'}]}>
             {labelone}
           </Text>
-          <Text style={[styles.text]}>{labeltwo}</Text>
+          <Text style={[styles.tex2]}>{labeltwo}</Text>
         </View>
         <TouchableOpacity style={{marginLeft: 15}}>
           <Checklist />
@@ -35,9 +35,16 @@ const styles = StyleSheet.create({
   }),
   text: {
     marginHorizontal: 5,
-    backgroundColor: '#FFFF',
+    // backgroundColor: '#FFFF',
     fontSize: 14,
     fontFamily: 'Poppins-Medium',
+    color: 'black',
+  },
+  tex2: {
+    marginHorizontal: 10,
+    // backgroundColor: '#FFFF',
+    fontSize: 12,
+    fontFamily: 'Poppins-Light',
     color: 'black',
   },
 });

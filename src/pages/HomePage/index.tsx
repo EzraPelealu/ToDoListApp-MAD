@@ -1,38 +1,65 @@
-import React from 'react';
-import {StyleSheet, View, ScrollView, Text, TouchableOpacity} from 'react-native';
+import React, {useState, useEffect} from 'react';
 import {
-  Button,
-  Gap,
-  PageHeader,
-  TextInput,
-  TaskDate,
-  TaskDetail,
-} from '../../components';
+  StyleSheet,
+  View,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
+import {Button, Gap, PageHeader, TaskDate, TaskDetail} from '../../components';
+import {useNavigation} from '@react-navigation/native';
+import {getDatabase, ref, onValue} from 'firebase/database';
 
-const HomePage = ({navigation, label}) => {
+const HomePage = () => {
+  const [tasks, setTasks] = useState([]);
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const db = getDatabase();
+    const tasksRef = ref(db, 'tasks');
+
+    onValue(tasksRef, snapshot => {
+      const data = snapshot.val();
+      if (data) {
+        const taskList = Object.values(data);
+        setTasks(taskList);
+      } else {
+        setTasks([]);
+      }
+    });
+
+    return () => {
+      tasksRef.off();
+    };
+  }, []);
 
   const goToTaskPage = () => {
-    navigation.navigate('TaskPage'); // Navigate to TaskPage
+    navigation.navigate('CreateTask');
   };
+
   return (
     <ScrollView style={styles.container}>
-
       <PageHeader type="withLogo" />
       <View style={styles.contentWrapper}>
-        {/* <Gap height={26} /> */}
-        <View style={{flexDirection: 'row'}}>
+        <Gap height={26} />
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}>
           <View>
             <Text style={styles.title1}>Today</Text>
             <Text style={styles.title2}>7 Task</Text>
           </View>
-          <View>
+          <TouchableOpacity onPress={goToTaskPage}>
             <Button
               label="Add New"
               backgroundColor="#FFCB62"
               textColor="#001D35"
               onPress={() => navigation.navigate('CreateTask')}
             />
-          </View>
+          </TouchableOpacity>
         </View>
         <Gap height={16} />
         <View style={styles.content1}>
@@ -42,46 +69,16 @@ const HomePage = ({navigation, label}) => {
           <TaskDate label={12} labelone={'Des'} backgroundColor={'#E7E7E7'} />
         </View>
         <Gap height={26} />
-
         <Text style={styles.title1}>My Task</Text>
-        <TouchableOpacity onPress={goToTaskPage}>
+        <Gap height={16} />
+        {tasks.map((task, index) => (
           <TaskDetail
-            label={'6:00 - 07:30'}
-            labelone={'   Fitness'}
-            labeltwo={'   Exercise and Gym'}
-            backgroundColor={'#FFCB62'}
+            key={index}
+            labelone={task.name}
+            labeltwo={task.description}
+            backgroundColor='#FFCB62'
           />
-        </TouchableOpacity>
-        <TaskDetail
-          label={'6:00 - 07:30'}
-          labelone={'   Fitness'}
-          labeltwo={'   Exercise and Gym'}
-          backgroundColor={'#E7E7E7'}
-        />
-        <TaskDetail
-          label={'6:00 - 07:30'}
-          labelone={'   Fitness'}
-          labeltwo={'   Exercise and Gym'}
-          backgroundColor={'#E7E7E7'}
-        />
-        <TaskDetail
-          label={'6:00 - 07:30'}
-          labelone={'   Fitness'}
-          labeltwo={'   Exercise and Gym'}
-          backgroundColor={'#E7E7E7'}
-        />
-        <TaskDetail
-          label={'6:00 - 07:30'}
-          labelone={'   Fitness'}
-          labeltwo={'   Exercise and Gym'}
-          backgroundColor={'#E7E7E7'}
-        />
-        <TaskDetail
-          label={'6:00 - 07:30'}
-          labelone={'   Fitness'}
-          labeltwo={'   Exercise and Gym'}
-          backgroundColor={'#E7E7E7'}
-        />
+        ))}
       </View>
     </ScrollView>
   );
@@ -98,7 +95,6 @@ const styles = StyleSheet.create({
   content1: {
     alignItems: 'center',
     justifyContent: 'space-between',
-
     flexDirection: 'row',
   },
   title1: {
@@ -113,31 +109,6 @@ const styles = StyleSheet.create({
     marginTop: -10,
     fontSize: 14,
     marginBottom: -10,
-  },
-  containerText: {
-    color: '#000000',
-    fontFamily: 'Poppins-Light',
-  },
-  containerText1: {
-    color: '#000000',
-    fontFamily: 'Poppins-Medium',
-    fontSize: 16,
-  },
-  containerText2: {
-    color: '#000000',
-    fontFamily: 'Poppins-Medium',
-    fontSize: 24,
-    textAlign: 'center',
-  },
-  containerText3: {
-    color: '#000000',
-    fontFamily: 'Poppins-Light',
-    fontSize: 14,
-  },
-  containerText4: {
-    color: '#000',
-    fontFamily: 'Poppins-Regular',
-    fontSize: 16,
   },
 });
 
