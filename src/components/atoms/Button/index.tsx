@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     height: 42,
     width: 120,
-    marginLeft: 150,
+    marginLeft: 120,
   }),
   label: textColor => ({
     textAlign: 'center',

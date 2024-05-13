@@ -15,7 +15,6 @@ const TaskDetail = ({
       <View style={styles.jenis(backgroundColor)}>
         <Text style={[styles.text, {width:88, height:27 }]}>{label}</Text>
         <View style={{width:185, height:44 }}>
-        onPress={() => navigation.navigate('CashOnHand')}
           <Text style={[styles.text, { fontFamily: 'Poppins-Bold', } ]}>{labelone}</Text>
           <Text style={[styles.text]}>{labeltwo}</Text>
         </View>

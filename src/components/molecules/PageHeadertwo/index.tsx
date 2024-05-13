@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#001D35',
     textAlign: 'center',
-    // marginLeft: 30,
+    marginLeft: 20,
     marginRight: 'auto',
 
   },

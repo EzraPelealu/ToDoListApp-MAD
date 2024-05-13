@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#001D35',
     textAlign: 'center',
-    // marginLeft: 30,
+    marginLeft: 20,
     marginRight: 'auto',
 
   },
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     // borderColor: 'black',
   },
   clockLogo: {
-    marginRight: 30,
+    marginRight: 16,
     borderWidth: 10,
     borderRadius: 10,
     marginLeft: 26,
