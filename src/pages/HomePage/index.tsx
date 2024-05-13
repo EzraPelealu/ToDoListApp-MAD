@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, ScrollView, Text} from 'react-native';
+import {StyleSheet, View, ScrollView, Text, TouchableOpacity} from 'react-native';
 import {
   Button,
   Gap,
@@ -10,6 +10,10 @@ import {
 } from '../../components';
 
 const HomePage = ({navigation, label}) => {
+
+  const goToTaskPage = () => {
+    navigation.navigate('TaskPage'); // Navigate to TaskPage
+  };
   return (
     <ScrollView style={styles.container}>
 
@@ -18,7 +22,7 @@ const HomePage = ({navigation, label}) => {
         {/* <Gap height={26} /> */}
         <View style={{flexDirection: 'row'}}>
           <View>
-            <Text style={styles.title1}>Today Task</Text>
+            <Text style={styles.title1}>Today</Text>
             <Text style={styles.title2}>7 Task</Text>
           </View>
           <View>
@@ -29,8 +33,8 @@ const HomePage = ({navigation, label}) => {
               onPress={() => navigation.navigate('CreateTask')}
             />
           </View>
-
         </View>
+        <Gap height={16} />
         <View style={styles.content1}>
           <TaskDate label={4} labelone={'Apr'} backgroundColor={'#FFCB62'} />
           <TaskDate label={7} labelone={'Mei'} backgroundColor={'#E7E7E7'} />
@@ -40,12 +44,14 @@ const HomePage = ({navigation, label}) => {
         <Gap height={26} />
 
         <Text style={styles.title1}>My Task</Text>
-        <TaskDetail
-          label={'6:00 - 07:30'}
-          labelone={'   Fitness'}
-          labeltwo={'   Exercise and Gym'}
-          backgroundColor={'#FFCB62'}
-        />
+        <TouchableOpacity onPress={goToTaskPage}>
+          <TaskDetail
+            label={'6:00 - 07:30'}
+            labelone={'   Fitness'}
+            labeltwo={'   Exercise and Gym'}
+            backgroundColor={'#FFCB62'}
+          />
+        </TouchableOpacity>
         <TaskDetail
           label={'6:00 - 07:30'}
           labelone={'   Fitness'}

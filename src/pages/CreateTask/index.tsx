@@ -28,7 +28,7 @@ const TaskPage = () => {
 
   return (
     <ScrollView style={styles.container}>
-      <PageHeadertwo type="withLogo" label={'Create Task'} />
+      <PageHeadertwo type="withLogo" label={'Create Task'} backButton={true} onPress={() => navigation.goBack()} />
       <Gap height={16} />
       <View style={styles.contentWrapper}>
         <Calendar
@@ -59,7 +59,7 @@ const TaskPage = () => {
           //   height={171}
         />
         <Gap height={26} />
-        <ButtonCreate label="Create Task" />
+        <ButtonCreate label="Create Task" onPress={undefined} type={undefined} icon={undefined} />
         <Gap height={26} />
       </View>
       <Modal visible={tanggal} animationType="fade" transparent>
@@ -70,7 +70,7 @@ const TaskPage = () => {
               onDayPress={date => console.log(date)}
               color="white"
             />
-            <ButtonCreate label="OK" onPress={() => setTanggal(false)} />
+            <ButtonCreate label="OK" onPress={() => setTanggal(false)} type={undefined} icon={undefined} />
           </View>
         </View>
       </Modal>

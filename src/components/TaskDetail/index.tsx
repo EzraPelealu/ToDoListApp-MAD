@@ -1,9 +1,10 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Button } from 'react-native';
 import React from 'react';
 import Checklist from '../../../assets/icon/checklist'
 import Gap from '../Gap';
 
 const TaskDetail = ({
+  navigation,
   label,
   labelone,
   labeltwo,

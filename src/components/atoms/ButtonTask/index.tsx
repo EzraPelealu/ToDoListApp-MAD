@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import {BackButton, Logo} from '../../../assets/icon';
+import { BackButton, Logo } from '../../../assets/icon';
 import IconOnly from './IconOnly';
 
 const index = ({
@@ -9,9 +9,9 @@ const index = ({
   textColor = '#020202',
   onPress,
   type,
-  icon,
+  icon
 }) => {
-  if (type === 'icon-only') {
+  if (type === 'icon-only'){
     return (
       <TouchableOpacity activeOpacity={0.7} onPress={onPress}>
         {icon === 'icon-back' && <BackButton />}
@@ -23,7 +23,7 @@ const index = ({
     <TouchableOpacity
       style={styles.container(backgroundColor)}
       activeOpacity={0.7}
-      onPress={onPress}>
+      onPress = {onPress}>
       <Text style={styles.label(textColor)}>{label}</Text>
     </TouchableOpacity>
   );
@@ -34,16 +34,13 @@ export default index;
 const styles = StyleSheet.create({
   container: backgroundColor => ({
     backgroundColor: backgroundColor,
-    borderRadius: 5,
-    height: 42,
-    width: 120,
-    marginLeft: 120,
+    paddingVertical: 12,
+    borderRadius: 8,
   }),
   label: textColor => ({
     textAlign: 'center',
-    marginVertical: 5,
     fontFamily: 'Poppins-Medium',
-    fontSize: 20,
+    fontSize: 14,
     color: textColor,
   }),
 });
