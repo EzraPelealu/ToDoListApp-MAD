@@ -6,19 +6,20 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import {Button, Gap, PageHeader, TaskDate, TaskDetail} from '../../components';
+import {Button, Gap, PageHeader, TaskDetail, TaskDate} from '../../components';
 import {useNavigation} from '@react-navigation/native';
-import {getDatabase, ref, onValue} from 'firebase/database';
+import {getDatabase, ref, onValue, off} from 'firebase/database'; // Pastikan ref dan off diimpor
 
 const HomePage = () => {
   const [tasks, setTasks] = useState([]);
+  const [selectedDate, setSelectedDate] = useState('');
   const navigation = useNavigation();
 
   useEffect(() => {
     const db = getDatabase();
     const tasksRef = ref(db, 'tasks');
 
-    onValue(tasksRef, snapshot => {
+    const unsubscribe = onValue(tasksRef, snapshot => {
       const data = snapshot.val();
       if (data) {
         const taskList = Object.values(data);
@@ -29,12 +30,30 @@ const HomePage = () => {
     });
 
     return () => {
-      tasksRef.off();
+      // Pastikan tasksRef tidak null sebelum mencoba memanggil off()
+      if (tasksRef) {
+        off(tasksRef, 'value', unsubscribe);
+      }
     };
   }, []);
 
+  const uniqueDates = [...new Set(tasks.map(task => task.date.split(' ')[0]))];
+
+  const filterTasksByDate = () => {
+    return tasks.filter(task => task.date === selectedDate);
+  };
+
   const goToTaskPage = () => {
     navigation.navigate('CreateTask');
+  };
+
+  const handleDatePress = date => {
+    setSelectedDate(date);
+  };
+
+  const renderTaskCount = () => {
+    const taskCount = tasks.filter(task => task.date === selectedDate).length;
+    return taskCount;
   };
 
   return (
@@ -49,34 +68,44 @@ const HomePage = () => {
             alignItems: 'center',
           }}>
           <View>
-            <Text style={styles.title1}>Today</Text>
-            <Text style={styles.title2}>7 Task</Text>
+            <Text style={styles.title1}>
+              {selectedDate !== '' ? selectedDate : 'Today'}
+            </Text>
+            <Text style={styles.title2}>{renderTaskCount()} Task</Text>
           </View>
           <TouchableOpacity onPress={goToTaskPage}>
             <Button
               label="Add New"
               backgroundColor="#FFCB62"
               textColor="#001D35"
-              onPress={() => navigation.navigate('CreateTask')}
+              onPress={() => navigation.navigate('TaskPage')}
             />
           </TouchableOpacity>
         </View>
         <Gap height={16} />
         <View style={styles.content1}>
-          <TaskDate label={4} labelone={'Apr'} backgroundColor={'#FFCB62'} />
-          <TaskDate label={7} labelone={'Mei'} backgroundColor={'#E7E7E7'} />
-          <TaskDate label={10} labelone={'Jul'} backgroundColor={'#E7E7E7'} />
-          <TaskDate label={12} labelone={'Des'} backgroundColor={'#E7E7E7'} />
+          {uniqueDates.map((date, index) => (
+            <TouchableOpacity key={index} onPress={() => handleDatePress(date)}>
+              <TaskDate
+                label={date}
+                labelone={date}
+                backgroundColor={selectedDate === date ? '#FFCB62' : '#E7E7E7'}
+              />
+            </TouchableOpacity>
+          ))}
         </View>
+        <Gap height={26} />
         <Gap height={26} />
         <Text style={styles.title1}>My Task</Text>
         <Gap height={16} />
-        {tasks.map((task, index) => (
+        {filterTasksByDate().map((task, index) => (
           <TaskDetail
             key={index}
+            label={task.date}
             labelone={task.name}
             labeltwo={task.description}
-            backgroundColor='#FFCB62'
+            backgroundColor="#FFCB62"
+            
           />
         ))}
       </View>
@@ -99,7 +128,7 @@ const styles = StyleSheet.create({
   },
   title1: {
     fontFamily: 'Poppins-Medium',
-    fontSize: 24,
+    fontSize: 16,
     marginTop: -10,
     color: '#020202',
   },

@@ -28,12 +28,12 @@ const TaskPage = ( {navigation, label, backButton, onPress, style}) => {
             <Gap height={6} />
             <View style={styles.dateAndTimeContainer}>
                 <TextInputDateTime label="Task Date" placeholder="04 / April / 2024"/>
-                <TextInputDateTime label="Task Time" placeholder="6:00 - 07:30"/>
+                {/* <TextInputDateTime label="Task Time" placeholder="6:00 - 07:30"/> */}
             </View>
             <Gap height={36} />
             <View style={styles.buttonContainer}>
                 <ButtonTask label="Edit Task" backgroundColor="#FFCB62" textColor="#000000" onPress={() => navigation.navigate('')} />
-                <ButtonTask label="Delete Task" backgroundColor="#FFCB62" textColor="#000000" onPress={() => navigation.navigate('')}/>
+                {/* <ButtonTask label="Delete Task" backgroundColor="#FFCB62" textColor="#000000" onPress={() => navigation.navigate('')}/> */}
             </View>
             <Gap height={48} />
         </View>

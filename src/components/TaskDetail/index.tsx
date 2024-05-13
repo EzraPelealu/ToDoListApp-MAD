@@ -15,6 +15,7 @@ const TaskDetail = ({
       <View style={styles.jenis(backgroundColor)}>
         {/* <Text style={[styles.text, {width: 88, height: 27}]}>{label}</Text> */}
         <View style={{width: 185, height: 44}}>
+          
           <Text style={[styles.text, {fontFamily: 'Poppins-Bold'}]}>
             {labeltwo}
           </Text>
