@@ -1,55 +1,92 @@
-import React from 'react';
-import {StyleSheet, View, ScrollView, Text, Modal} from 'react-native';
+import React, {useState, useEffect} from 'react';
 import {
-  Button,
-  Gap,
-  PageHeader,
+  StyleSheet,
+  View,
+  ScrollView,
+  Text,
+  TouchableOpacity,
   TextInput,
-  TextInputDateTime,
-} from '../../components';
-import {useNavigation} from '@react-navigation/native';
-import {Calendar} from 'react-native-calendars';
+} from 'react-native';
+import {ButtonTask, Gap, PageHeader} from '../../components';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {getDatabase, ref, set} from 'firebase/database';
 
 const TaskPage = () => {
-  const [tanggal, setTanggal] = React.useState(true);
+  const [taskName, setTaskName] = useState('');
+  const [taskDescription, setTaskDescription] = useState('');
+  const [taskDate, setTaskDate] = useState('');
   const navigation = useNavigation();
+  const route = useRoute();
+  const {task} = route.params;
+
+  useEffect(() => {
+    if (task) {
+      setTaskName(task.name);
+      setTaskDescription(task.description);
+      setTaskDate(task.date);
+    }
+  }, [task]);
+
+  const handleEditTask = () => {
+    const db = getDatabase();
+    const taskRef = ref(db, `tasks/${task.id}`);
+
+    set(taskRef, {
+      name: taskName,
+      description: taskDescription,
+      date: taskDate,
+      completed: task.completed, // maintain the completion status
+    })
+      .then(() => {
+        navigation.goBack();
+      })
+      .catch(error => {
+        console.error('Error updating task: ', error);
+      });
+  };
 
   return (
     <ScrollView style={styles.container}>
-      <PageHeader type="withLogo" label={'Create Task'} />
-      <Gap height={16} />
-      <View style={styles.contentWrapper}>
-        <Calendar
-          style={styles.calendar}
-          onDayPress={date => console.log(date)}
-        />
-        <Text style={styles.title}>Time</Text>
-        <View style={styles.time}>
-          <Text style={styles.textbox}>6:00 - 07:30</Text>
-        </View>
-        <Gap height={6} />
-        <TextInput label={'Task Name'} placeholder={'Name Task'} />
+      <PageHeader type="withLogo2" />
+      <Gap height={26} />
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Task Name</Text>
         <TextInput
-          label={'Task Deskription'}
-          placeholder={'Task Description'}
-          height={171}
+          style={styles.input}
+          value={taskName}
+          onChangeText={setTaskName}
         />
-        <Gap height={26} />
-        <Button label="Create Task" />
-        <Gap height={26} />
       </View>
-      <Modal visible={tanggal} animationType="fade" transparent>
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Calendar
-              style={{borderRadius: 10}}
-              onDayPress={date => console.log(date)}
-              color="white"
-            />
-            <Button label="OK" onPress={() => setTanggal(false)} />
-          </View>
-        </View>
-      </Modal>
+      <Gap height={16} />
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Task Description</Text>
+        <TextInput
+          style={styles.input}
+          value={taskDescription}
+          onChangeText={setTaskDescription}
+          multiline
+          numberOfLines={4}
+        />
+      </View>
+      <Gap height={16} />
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Task Date</Text>
+        <TextInput
+          style={styles.input}
+          value={taskDate}
+          onChangeText={setTaskDate}
+        />
+      </View>
+      <Gap height={36} />
+      <View style={styles.buttonContainer}>
+        <ButtonTask
+          label="Edit Task"
+          backgroundColor="#FFCB62"
+          textColor="#000000"
+          onPress={handleEditTask}
+        />
+      </View>
+      <Gap height={48} />
     </ScrollView>
   );
 };
@@ -59,48 +96,28 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFFFFF',
   },
-  contentWrapper: {
+  inputContainer: {
     paddingHorizontal: 24,
   },
-  title: {
-    fontFamily: 'Poppins-Bold',
-    fontSize: 13,
-    color: 'black',
-    textAlign: 'center',
-  },
-  textbox: {
+  label: {
+    fontSize: 16,
     fontFamily: 'Poppins-Medium',
-    fontSize: 14,
-    color: 'black',
+    color: '#001D35',
+    marginBottom: 5,
   },
-  time: {
-    borderWidth: 2,
-    borderRadius: 4,
-    marginTop: -3,
-    borderColor: '#D9D9D9',
-    padding: 7,
-    width: 118,
-    height: 37,
+  input: {
+    borderWidth: 1,
+    borderColor: '#CCCCCC',
+    borderRadius: 8,
+    padding: 10,
+    fontFamily: 'Poppins-Regular',
+    color: '#333',
+    marginBottom: 20,
+  },
+  buttonContainer: {
+    paddingHorizontal: 24,
+    flexDirection: 'row',
     justifyContent: 'center',
-    alignSelf: 'center',
-    alignItems: 'center',
-  },
-  modalContainer: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalContent: {
-    backgroundColor: 'white',
-    borderRadius: 10,
-    padding: 20,
-    alignItems: 'center',
-  },
-  calendar: {
-    borderRadius: 10,
-    marginTop: 10,
-    marginVertical: 10,
   },
 });
 

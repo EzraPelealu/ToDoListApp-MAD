@@ -3,75 +3,105 @@ import {
   StyleSheet,
   View,
   ScrollView,
+  TextInput,
   Text,
   TouchableOpacity,
   Modal,
 } from 'react-native';
-import {
-  Button,
-  ButtonCreate,
-  Gap,
-  PageHeader,
-  PageHeadertwo,
-  TextInput,
-} from '../../components';
+import {ButtonCreate, Gap, PageHeader} from '../../components';
 import {useNavigation} from '@react-navigation/native';
+import {getDatabase, ref, push} from 'firebase/database';
 import {Calendar} from 'react-native-calendars';
-// import TimePicker from '@tighten/react-native-time-input';
-// import TimePicker from 'react-time-picker';
 
+const CreateTask = () => {
+  const [date, setDate] = useState('');
+  const [taskName, setTaskName] = useState('');
+  const [taskDescription, setTaskDescription] = useState('');
+  const [modalVisible, setModalVisible] = useState(true);
+  const navigation = useNavigation();
 
-const TaskPage = () => {
-    const [tanggal, setTanggal] = useState(true);
-    const navigation = useNavigation();
+  const handleCreateTask = () => {
+    const db = getDatabase();
+    const tasksRef = ref(db, 'tasks');
 
+    push(tasksRef, {
+      name: taskName,
+      description: taskDescription,
+      date: date,
+      completed: false, // Menambahkan default completion status
+    })
+      .then(() => {
+        setTaskName('');
+        setTaskDescription('');
+        setDate('');
+        navigation.goBack();
+      })
+      .catch(error => {
+        console.error('Error adding task: ', error);
+      });
+  };
+
+  const onDayPress = day => {
+    setDate(day.dateString);
+    setModalVisible(false);
+  };
 
   return (
     <ScrollView style={styles.container}>
-      <PageHeadertwo type="withLogo" label={'Create Task'} />
+      <PageHeader
+        type="withLogo2"
+        label="Create Task"
+        backButton={true}
+        onPress={() => navigation.goBack()}
+      />
       <Gap height={16} />
+      
       <View style={styles.contentWrapper}>
-        <Calendar
-          style={styles.calendar}
-          onDayPress={date => console.log(date)}
-        />
-        {/* <Text style={styles.title}>Time</Text> */}
-        {/* <TextInput
-            label={'Time'}
-            placeholder={'Name Task'}
-        /> */}
-        {/* <View>
-          <TimeInput setCurrentTime onTimeChange={handleTimeChange} />
-          <Text>Current time entered is: {time}</Text>
-        </View> */}
-   
-        <Gap height={16} />
-
-        {/* <View style={styles.time}> */}
-        {/* <Text style={styles.textbox}>6:00 - 07:30</Text> */}
-        {/* </View> */}
-        <Gap height={6} />
-        <TextInput label={'Task Name'} placeholder={'Name Task'} />
+        <Text style={styles.task}>Task Date</Text>
+        
+        <TouchableOpacity onPress={() => setModalVisible(true)}>
+          <View style={styles.input}>
+            <Text style={styles.inputText}>{date || 'Select Date'}</Text>
+          </View>
+        </TouchableOpacity>
+        <Gap height={20} />
+        <Text style={styles.task}>Task Title</Text>
         <TextInput
-          //   style={{height: 171}}
-          label={'Task Deskription'}
-          placeholder={'Task Description'}
-          //   height={171}
+          style={styles.input}
+          placeholder="Write your task title here"
+          value={taskName}
+          onChangeText={setTaskName}
+        />
+        <Text style={styles.task}>Task Description</Text>
+        <TextInput
+          style={styles.inputDes}
+          placeholder="Write your task description here"
+          value={taskDescription}
+          onChangeText={setTaskDescription}
+          multiline={true}
+          numberOfLines={4}
         />
         <Gap height={26} />
-        <ButtonCreate label="Create Task" />
+        <ButtonCreate label="Create Task" onPress={handleCreateTask} />
         <Gap height={26} />
       </View>
-      <Modal visible={tanggal} animationType="fade" transparent>
+      {/* <Modal visible={modalVisible} animationType="fade" transparent>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Calendar
-              style={{borderRadius: 10}}
-              onDayPress={date => console.log(date)}
-              color="white"
+            <Calendar style={styles.calendar} onDayPress={onDayPress} />
+            <ButtonCreate
+              label="OK"
+              onPress={() => setModalVisible(false)}
+              type={undefined}
+              icon={undefined}
             />
-            <ButtonCreate label="OK" onPress={() => setTanggal(false)} />
           </View>
+        </View>
+      </Modal> */}
+      <Modal visible={modalVisible} animationType="slide" transparent={true}>
+        <View style={styles.modalContainer}>
+          <Calendar style={styles.calendar} onDayPress={onDayPress} />
+          <ButtonCreate label="OK" onPress={() => setModalVisible(true)} />
         </View>
       </Modal>
     </ScrollView>
@@ -86,46 +116,48 @@ const styles = StyleSheet.create({
   contentWrapper: {
     paddingHorizontal: 24,
   },
-  title: {
-    fontFamily: 'Poppins-Bold',
-    fontSize: 13,
-    color: 'black',
-    textAlign: 'center',
-  },
-  textbox: {
+  task: {
+    fontSize: 16,
     fontFamily: 'Poppins-Medium',
-    fontSize: 14,
-    color: 'black',
+    color: '#001D35',
+    marginBottom: 5,
   },
-  time: {
-    borderWidth: 2,
-    borderRadius: 4,
-    marginTop: -3,
-    borderColor: '#D9D9D9',
-    padding: 7,
-    width: 118,
-    height: 37,
-    justifyContent: 'center',
-    alignSelf: 'center',
-    alignItems: 'center',
+  input: {
+    borderWidth: 1,
+    borderColor: '#CCCCCC',
+    borderRadius: 8,
+    padding: 10,
+    marginBottom: 20,
+    fontFamily: 'Poppins-Regular',
+    fontSize: 16,
+    color: '#333',
   },
-  modalContainer: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
+  inputText: {
+    color: '#001D35',
   },
-  modalContent: {
-    backgroundColor: 'white',
-    borderRadius: 10,
-    padding: 20,
-    alignItems: 'center',
+  inputDes: {
+    borderWidth: 1,
+    borderColor: '#CCCCCC',
+    borderRadius: 8,
+    padding: 10,
+    marginBottom: 20,
+    height: 150,
+    textAlignVertical: 'top',
+    fontFamily: 'Poppins-Regular',
+    fontSize: 16,
+    color: '#333333',
   },
   calendar: {
     borderRadius: 10,
     marginTop: 10,
     marginVertical: 10,
   },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
 });
 
-export default TaskPage;
+export default CreateTask;

@@ -1,4 +1,4 @@
-package com.moneytrackermad2024
+package com.todolist
 
 import android.app.Application
 import com.facebook.react.PackageList
