@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   View,
@@ -17,6 +17,8 @@ import {
 } from '../../components';
 import {useNavigation} from '@react-navigation/native';
 import {Calendar} from 'react-native-calendars';
+import { getDatabase } from 'firebase/database';
+import moment from 'moment';
 // import TimePicker from '@tighten/react-native-time-input';
 // import TimePicker from 'react-time-picker';
 
@@ -25,6 +27,18 @@ const TaskPage = () => {
     const [tanggal, setTanggal] = useState(true);
     const navigation = useNavigation();
 
+  const [taskname, setTaskName] = useState('');
+  const [taskdescription, setTaskDescription] = useState(''); 
+
+  const onSubmit = () => {
+    const data = {
+      dateTime: moment().format('LLL'),
+      taskname: taskname,
+      taskdescription: taskdescription,
+    };
+
+    console.log(data);
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -51,15 +65,16 @@ const TaskPage = () => {
         {/* <Text style={styles.textbox}>6:00 - 07:30</Text> */}
         {/* </View> */}
         <Gap height={6} />
-        <TextInput label={'Task Name'} placeholder={'Name Task'} />
+        <TextInput label={'Task Name'} placeholder={'Name Task'} value={taskname} onChangeText={value => setTaskName(value)} />
         <TextInput
           //   style={{height: 171}}
-          label={'Task Deskription'}
+          label={'Task Description'}
           placeholder={'Task Description'}
+          value={taskdescription} onChangeText={value => setTaskDescription(value)}
           //   height={171}
         />
         <Gap height={26} />
-        <ButtonCreate label="Create Task" onPress={undefined} type={undefined} icon={undefined} />
+        <ButtonCreate label="Create Task" onPress={onSubmit} />
         <Gap height={26} />
       </View>
       <Modal visible={tanggal} animationType="fade" transparent>
