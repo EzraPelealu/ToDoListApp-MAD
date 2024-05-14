@@ -1,9 +1,16 @@
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
-import Checklist from '../../../assets/icon/checklist';
+import {CheckBox} from 'react-native-elements'; 
 import Gap from '../Gap';
 
-const TaskDetail = ({label, labelone, labeltwo, backgroundColor}) => {
+const TaskDetail = ({
+  label,
+  labelone,
+  labeltwo,
+  backgroundColor,
+  task,
+  handleCheckboxChange,
+}) => {
   return (
     <View>
       <View style={styles.jenis(backgroundColor)}>
@@ -15,7 +22,12 @@ const TaskDetail = ({label, labelone, labeltwo, backgroundColor}) => {
           <Text style={[styles.tex2]}>{labeltwo}</Text>
         </View>
         <TouchableOpacity style={{marginLeft: 15}}>
-          <Checklist />
+          
+          <CheckBox
+            checked={task.completed}
+            onPress={() => handleCheckboxChange(task.id, !task.completed)} 
+            containerStyle={styles.checkboxContainer}
+          />
         </TouchableOpacity>
       </View>
     </View>
@@ -35,16 +47,20 @@ const styles = StyleSheet.create({
   }),
   text: {
     marginHorizontal: 5,
-    // backgroundColor: '#FFFF',
     fontSize: 14,
     fontFamily: 'Poppins-Medium',
     color: 'black',
   },
   tex2: {
     marginHorizontal: 10,
-    // backgroundColor: '#FFFF',
     fontSize: 12,
     fontFamily: 'Poppins-Light',
     color: 'black',
+  },
+  checkboxContainer: {
+    backgroundColor: 'transparent',
+    borderWidth: 0,
+    padding: 0,
+    margin: 0,
   },
 });

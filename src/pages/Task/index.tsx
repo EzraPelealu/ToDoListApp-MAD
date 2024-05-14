@@ -1,106 +1,124 @@
-import React from 'react';
-import { StyleSheet, View, ScrollView, Text } from 'react-native';
-import { ButtonTask, Gap, PageHeader, TextInput, TextInput2, TextInputDateTime } from '../../components'; 
-import {useNavigation} from '@react-navigation/native';
+import React, {useState, useEffect} from 'react';
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
+import {ButtonTask, Gap, PageHeader} from '../../components';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {getDatabase, ref, set} from 'firebase/database';
 
-const TaskPage = ( {navigation, label, backButton, onPress, style}) => {
-    // const navigation = useNavigation();
+const TaskPage = () => {
+  const [taskName, setTaskName] = useState('');
+  const [taskDescription, setTaskDescription] = useState('');
+  const [taskDate, setTaskDate] = useState('');
+  const navigation = useNavigation();
+  const route = useRoute();
+  const {task} = route.params;
+
+  useEffect(() => {
+    if (task) {
+      setTaskName(task.name);
+      setTaskDescription(task.description);
+      setTaskDate(task.date);
+    }
+  }, [task]);
+
+  const handleEditTask = () => {
+    const db = getDatabase();
+    const taskRef = ref(db, `tasks/${task.id}`);
+
+    set(taskRef, {
+      name: taskName,
+      description: taskDescription,
+      date: taskDate,
+      completed: task.completed, // maintain the completion status
+    })
+      .then(() => {
+        navigation.goBack();
+      })
+      .catch(error => {
+        console.error('Error updating task: ', error);
+      });
+  };
+
   return (
     <ScrollView style={styles.container}>
-        <View style={styles.contentWrapper}>
-            <Gap height={16} />
-            <View>
-                {/* <View style={styles.container}>
-                    {backButton && (
-                        <Button type="icon-only" icon="icon-back" onPress={onPress} style={[styles.backButton, style]} />
-                    )}
-                    <Text style={styles.label}>{label}</Text>
-                </View> */}
-                <PageHeader type="withLogo2"/>
-                <Gap height={26} />
-                <TextInput label="Task Name" placeholder="Fitness"/>
-                <Gap height={16} />
-                <TextInput2 label="Task Description" placeholder="Exercise and Gym"/>
-            </View>
-            <Gap height={24} />
-        </View>
-        <View style={styles.contentWrapper}>
-            <Gap height={6} />
-            <View style={styles.dateAndTimeContainer}>
-                <TextInputDateTime label="Task Date" placeholder="04 / April / 2024"/>
-                {/* <TextInputDateTime label="Task Time" placeholder="6:00 - 07:30"/> */}
-            </View>
-            <Gap height={36} />
-            <View style={styles.buttonContainer}>
-                <ButtonTask label="Edit Task" backgroundColor="#FFCB62" textColor="#000000" onPress={() => navigation.navigate('')} />
-                {/* <ButtonTask label="Delete Task" backgroundColor="#FFCB62" textColor="#000000" onPress={() => navigation.navigate('')}/> */}
-            </View>
-            <Gap height={48} />
-        </View>
+      <PageHeader type="withLogo2" />
+      <Gap height={26} />
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Task Name</Text>
+        <TextInput
+          style={styles.input}
+          value={taskName}
+          onChangeText={setTaskName}
+        />
+      </View>
+      <Gap height={16} />
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Task Description</Text>
+        <TextInput
+          style={styles.input}
+          value={taskDescription}
+          onChangeText={setTaskDescription}
+          multiline
+          numberOfLines={4}
+        />
+      </View>
+      <Gap height={16} />
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Task Date</Text>
+        <TextInput
+          style={styles.input}
+          value={taskDate}
+          onChangeText={setTaskDate}
+        />
+      </View>
+      <Gap height={36} />
+      <View style={styles.buttonContainer}>
+        <ButtonTask
+          label="Edit Task"
+          backgroundColor="#FFCB62"
+          textColor="#000000"
+          onPress={handleEditTask}
+        />
+      </View>
+      <Gap height={48} />
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    contentWrapper: {
-        backgroundColor: '#FFFFFF',
-        flex: 1,
-        paddingHorizontal: 24,
-    },
-    title: {
-        fontFamily: 'Poppins-Medium',
-        fontSize: 22,
-        color: '#020202',
-        textAlign: 'center',
-      },
-    containerText: {
-        color: '#000000',
-        fontFamily: 'Poppins-Light'
-    },
-    containerText1: {
-        color: '#000000',
-        fontFamily: 'Poppins-Medium',
-        fontSize: 16,
-    },
-    containerText2: {
-        color: '#000000',
-        fontFamily: 'Poppins-Medium',
-        fontSize: 24,
-        textAlign: 'center',
-    },
-    containerText3: {
-        color: '#000000',
-        fontFamily: 'Poppins-Light',
-        fontSize: 14,
-    },
-    containerText4: {
-        color: '#000',
-        fontFamily: 'Poppins-Regular',
-        fontSize: 13,
-        textAlign: 'left',
-    },
-    dateAndTimeContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between', 
-      },
-    backButton: {
-        marginLeft: 10, // Memberikan margin ke kiri
-    },
-    buttonContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-    },
-    // button: {
-    //     flex: 1,
-    //     marginHorizontal: 5,
-    //     height: 50,
-    //     borderRadius: 8,
-    //     alignItems: 'center',
-    //     justifyContent: 'center', 
-    // },
+  container: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+  },
+  inputContainer: {
+    paddingHorizontal: 24,
+  },
+  label: {
+    fontSize: 16,
+    fontFamily: 'Poppins-Medium',
+    color: '#001D35',
+    marginBottom: 5,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#CCCCCC',
+    borderRadius: 8,
+    padding: 10,
+    fontFamily: 'Poppins-Regular',
+    color: '#333',
+    marginBottom: 20,
+  },
+  buttonContainer: {
+    paddingHorizontal: 24,
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
 });
 
-export default TaskPage
+export default TaskPage;
