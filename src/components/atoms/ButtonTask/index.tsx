@@ -35,7 +35,9 @@ const styles = StyleSheet.create({
   container: backgroundColor => ({
     backgroundColor: backgroundColor,
     paddingVertical: 12,
+    paddingHorizontal: 20,
     borderRadius: 8,
+    alignItems: 'center',
   }),
   label: textColor => ({
     textAlign: 'center',
