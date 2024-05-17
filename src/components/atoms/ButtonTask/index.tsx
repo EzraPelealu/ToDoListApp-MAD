@@ -5,7 +5,7 @@ import IconOnly from './IconOnly';
 
 const index = ({
   label,
-  backgroundColor = '#02CF8E',
+  backgroundColor = '#FFCB62',
   textColor = '#020202',
   onPress,
   type,

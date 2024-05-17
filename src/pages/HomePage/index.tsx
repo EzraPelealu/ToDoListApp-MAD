@@ -6,7 +6,6 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import {CheckBox} from 'react-native-elements';
 import {Button, Gap, PageHeader, TaskDetail, TaskDate} from '../../components';
 import {useNavigation} from '@react-navigation/native';
 import {getDatabase, ref, onValue, off, set} from 'firebase/database';
@@ -59,32 +58,40 @@ const HomePage = () => {
       <View style={styles.contentWrapper}>
         <Gap height={26} />
         <View style={styles.dateSelectorContainer}>
-          <Text style={styles.title1}>{selectedDate || 'Today'}</Text>
-          <Text style={styles.title2}>{renderTaskCount()} Task(s)</Text>
-          <Button
-            label="Add New"
-            backgroundColor="#FFCB62"
-            textColor="#001D35"
-            onPress={goToCreateTask}
-          />
+          <View>
+            <Text style={styles.title1}>{selectedDate || 'Today'}</Text>
+            <Text style={styles.title2}>{renderTaskCount()} Task(s)</Text>
+          </View>
+          <View>
+            <Button
+              label="Add New"
+              backgroundColor="#FFCB62"
+              textColor="#001D35"
+              onPress={goToCreateTask}
+            />
+          </View>
         </View>
         <Gap height={16} />
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.scrollContainer}>
-      <View style={styles.dateButtonsContainer}>
-        {uniqueDates.map((date, index) => (
-          <TouchableOpacity 
-            key={index} 
-            onPress={() => handleDatePress(date)} 
-            style={styles.dateButton}
-          >
-            <TaskDate
-              label={date}
-              backgroundColor={selectedDate === date ? '#FFCB62' : '#E7E7E7'}
-            />
-          </TouchableOpacity>
-        ))}
-      </View>
-    </ScrollView>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={styles.scrollContainer}>
+          <View style={styles.dateButtonsContainer}>
+            {uniqueDates.map((date, index) => (
+              <TouchableOpacity
+                key={index}
+                onPress={() => handleDatePress(date)}
+                style={styles.dateButton}>
+                <TaskDate
+                  label={date}
+                  backgroundColor={
+                    selectedDate === date ? '#FFCB62' : '#E7E7E7'
+                  }
+                />
+              </TouchableOpacity>
+            ))}
+          </View>
+        </ScrollView>
         <Gap height={26} />
         <Text style={styles.title1}>My Tasks</Text>
         <Gap height={16} />
@@ -97,7 +104,7 @@ const HomePage = () => {
                 labelone={task.name}
                 labeltwo={task.description}
                 backgroundColor="#FFCB62"
-                task={task} // Pass task object
+                task={task}
                 handleCheckboxChange={handleCheckboxChange} // Pass handleCheckboxChange function
               />
             </TouchableOpacity>
@@ -119,6 +126,7 @@ const styles = StyleSheet.create({
   dateSelectorContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    // justifyContent: 'space-between',
   },
   scrollContainer: {
     flexDirection: 'row',
@@ -126,10 +134,11 @@ const styles = StyleSheet.create({
   dateButtonsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    borderRadius: 10,
   },
   dateButton: {
     marginBottom: 15, // Jarak antar baris
-    marginRight: 15,  // Jarak antar kolom
+    marginRight: 15, // Jarak antar kolom
   },
   taskContainer: {
     flexDirection: 'row',
@@ -138,17 +147,22 @@ const styles = StyleSheet.create({
   title1: {
     fontFamily: 'Poppins-Medium',
     fontSize: 16,
-    marginTop: -10,
     color: '#020202',
   },
   title2: {
     fontFamily: 'Poppins-Medium',
     color: '#020202',
-    marginTop: -1,
     fontSize: 14,
-    marginBottom: -40,
-    marginHorizontal: -50,
   },
+  // title23:{
+  //   fontFamily: 'Poppins-Medium',
+  //   color: '#020202',
+  //   marginTop: -1,
+  //   fontSize: 14,
+  //   marginBottom: -40,
+  //   marginHorizontal: -50,
+  //   // marginRight: 50,
+  // },
 });
 
 export default HomePage;

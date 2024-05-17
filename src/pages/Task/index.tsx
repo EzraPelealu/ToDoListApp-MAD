@@ -6,17 +6,21 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
+  Modal,
 } from 'react-native';
 import {ButtonTask, Gap, PageHeader} from '../../components';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {getDatabase, ref, set} from 'firebase/database';
+import {Calendar} from 'react-native-calendars';
 
 const TaskPage = () => {
   const [taskName, setTaskName] = useState('');
   const [taskDescription, setTaskDescription] = useState('');
   const [taskDate, setTaskDate] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
   const route = useRoute();
+
   const {task} = route.params;
 
   useEffect(() => {
@@ -35,7 +39,7 @@ const TaskPage = () => {
       name: taskName,
       description: taskDescription,
       date: taskDate,
-      completed: task.completed, // maintain the completion status
+      completed: task.completed,
     })
       .then(() => {
         navigation.goBack();
@@ -43,6 +47,11 @@ const TaskPage = () => {
       .catch(error => {
         console.error('Error updating task: ', error);
       });
+  };
+
+  const onDayPress = day => {
+    setTaskDate(day.dateString);
+    setModalVisible(false);
   };
 
   return (
@@ -61,21 +70,22 @@ const TaskPage = () => {
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Task Description</Text>
         <TextInput
-          style={styles.input}
+          style={[styles.input, styles.inputDescription]}
           value={taskDescription}
           onChangeText={setTaskDescription}
           multiline
           numberOfLines={4}
+          textAlignVertical="top"
         />
       </View>
       <Gap height={16} />
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Task Date</Text>
-        <TextInput
-          style={styles.input}
-          value={taskDate}
-          onChangeText={setTaskDate}
-        />
+        <TouchableOpacity onPress={() => setModalVisible(true)}>
+          <View style={styles.input}>
+            <Text style={styles.inputText}>{taskDate || 'Select Date'}</Text>
+          </View>
+        </TouchableOpacity>
       </View>
       <Gap height={36} />
       <View style={styles.buttonContainer}>
@@ -87,6 +97,12 @@ const TaskPage = () => {
         />
       </View>
       <Gap height={48} />
+      <Modal visible={modalVisible} animationType="slide" transparent={true}>
+        <View style={styles.modalContainer}>
+          <Calendar style={styles.calendar} onDayPress={onDayPress} />
+          <ButtonTask label="Cancel" onPress={() => setModalVisible(false)} />
+        </View>
+      </Modal>
     </ScrollView>
   );
 };
@@ -112,12 +128,30 @@ const styles = StyleSheet.create({
     padding: 10,
     fontFamily: 'Poppins-Regular',
     color: '#333',
-    marginBottom: 20,
+    marginBottom: 10,
+  },
+  inputDescription: {
+    height: 150,
+    textAlignVertical: 'top',
+  },
+  inputText: {
+    color: '#001D35',
   },
   buttonContainer: {
     paddingHorizontal: 24,
     flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
+  calendar: {
+    borderRadius: 10,
+    marginTop: 10,
+    marginVertical: 10,
+  },
+  modalContainer: {
+    flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
 });
 

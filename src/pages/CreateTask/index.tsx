@@ -17,7 +17,7 @@ const CreateTask = () => {
   const [date, setDate] = useState('');
   const [taskName, setTaskName] = useState('');
   const [taskDescription, setTaskDescription] = useState('');
-  const [modalVisible, setModalVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
 
   const handleCreateTask = () => {
@@ -55,10 +55,10 @@ const CreateTask = () => {
         onPress={() => navigation.goBack()}
       />
       <Gap height={16} />
-      
+
       <View style={styles.contentWrapper}>
         <Text style={styles.task}>Task Date</Text>
-        
+
         <TouchableOpacity onPress={() => setModalVisible(true)}>
           <View style={styles.input}>
             <Text style={styles.inputText}>{date || 'Select Date'}</Text>
@@ -74,34 +74,22 @@ const CreateTask = () => {
         />
         <Text style={styles.task}>Task Description</Text>
         <TextInput
-          style={styles.inputDes}
+          style={[styles.input, styles.inputDescription]}
           placeholder="Write your task description here"
           value={taskDescription}
           onChangeText={setTaskDescription}
           multiline={true}
           numberOfLines={4}
+          textAlignVertical="top"
         />
         <Gap height={26} />
         <ButtonCreate label="Create Task" onPress={handleCreateTask} />
         <Gap height={26} />
       </View>
-      {/* <Modal visible={modalVisible} animationType="fade" transparent>
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Calendar style={styles.calendar} onDayPress={onDayPress} />
-            <ButtonCreate
-              label="OK"
-              onPress={() => setModalVisible(false)}
-              type={undefined}
-              icon={undefined}
-            />
-          </View>
-        </View>
-      </Modal> */}
       <Modal visible={modalVisible} animationType="slide" transparent={true}>
         <View style={styles.modalContainer}>
           <Calendar style={styles.calendar} onDayPress={onDayPress} />
-          <ButtonCreate label="OK" onPress={() => setModalVisible(true)} />
+          <ButtonCreate label="Cancel" onPress={() => setModalVisible(false)} />
         </View>
       </Modal>
     </ScrollView>
@@ -135,17 +123,9 @@ const styles = StyleSheet.create({
   inputText: {
     color: '#001D35',
   },
-  inputDes: {
-    borderWidth: 1,
-    borderColor: '#CCCCCC',
-    borderRadius: 8,
-    padding: 10,
-    marginBottom: 20,
+  inputDescription: {
     height: 150,
     textAlignVertical: 'top',
-    fontFamily: 'Poppins-Regular',
-    fontSize: 16,
-    color: '#333333',
   },
   calendar: {
     borderRadius: 10,
